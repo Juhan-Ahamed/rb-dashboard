@@ -11,7 +11,6 @@ import MobileNav from "./MobileNav.jsx";
 
 const MainNav = () => {
   const [openNav, setOpenNav] = useState(false);
-
   const userPopover = usePopover();
 
   return (

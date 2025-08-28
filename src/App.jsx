@@ -1,21 +1,24 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router";
 
 import { Provider } from "react-redux";
 import { store } from "./store/index.js";
 import { ThemeProvider } from "./components/core/theme-provider/theme-provider.jsx";
 
-// Auth Components
-import AdminLogin from "./components/Auth/AdminLogin.jsx";
-import MerchantLogin from "./components/Auth/MerchantLogin.jsx";
-import MemberLogin from "./components/Auth/MemberLogin.jsx";
-import AdminRegister from "./components/Auth/AdminRegister.jsx";
-import MerchantRegister from "./components/Auth/MerchantRegister.jsx";
-import MemberRegister from "./components/Auth/MemberRegister.jsx";
+// Auth Pages
+import AdminLoginPage from "./pages/login/AdminLoginPage.jsx";
+import AdminRegisterPage from "./pages/register/AdminRegisterPage.jsx";
+import MerchantLoginPage from "./pages/login/MerchantLoginPage.jsx";
+import MerchantRegisterPage from "./pages/register/MerchantRegisterPage.jsx";
+import MemberLoginPage from "./pages/login/MemberLoginPage.jsx";
+import MemberRegisterPage from "./pages/register/MemberRegisterPage.jsx";
 
-// Dashboard Components
-import AdminDashboard from "./components/Dashboard/AdminDashboard.jsx";
-import MerchantDashboard from "./components/Dashboard/MerchantDashboard.jsx";
-import MemberDashboard from "./components/Dashboard/MemberDashboard.jsx";
+// Dashboard Pages
+import AdminPage from "./pages/dashboard/AdminPage.jsx";
+import MemberPage from "./pages/dashboard/MemberPage.jsx";
+import PurchasesPage from "./pages/dashboard/merchant/PurchasesPage.jsx";
+import CustomerLookupPage from "./pages/dashboard/merchant/CustomerLookupPage.jsx";
+import ContributionRatePage from "./pages/dashboard/merchant/ContributionRatePage.jsx";
+import NotificationsPage from "./pages/dashboard/merchant/NotificationsPage.jsx";
 
 // Common Components
 import ProtectedRoute from "./components/Common/ProtectedRoute.jsx";
@@ -29,13 +32,16 @@ const App = () => {
         <Router>
           <Routes>
             <Route element={<AuthLayout />}>
-              <Route path="/" element={<AdminLogin />} />
-              <Route path="/login/admin" element={<AdminLogin />} />
-              <Route path="/register/admin" element={<AdminRegister />} />
-              <Route path="/login/merchant" element={<MerchantLogin />} />
-              <Route path="/register/merchant" element={<MerchantRegister />} />
-              <Route path="/login/member" element={<MemberLogin />} />
-              <Route path="/register/member" element={<MemberRegister />} />
+              <Route path="/" element={<AdminLoginPage />} />
+              <Route path="/login/admin" element={<AdminLoginPage />} />
+              <Route path="/register/admin" element={<AdminRegisterPage />} />
+              <Route path="/login/merchant" element={<MerchantLoginPage />} />
+              <Route
+                path="/register/merchant"
+                element={<MerchantRegisterPage />}
+              />
+              <Route path="/login/member" element={<MemberLoginPage />} />
+              <Route path="/register/member" element={<MemberRegisterPage />} />
             </Route>
 
             <Route element={<DashboardLayout />}>
@@ -43,15 +49,33 @@ const App = () => {
                 path="/dashboard/admin"
                 element={
                   <ProtectedRoute requiredRole="admin">
-                    <AdminDashboard />
+                    <AdminPage />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="/dashboard/merchant"
+                path="/dashboard/merchant/*"
                 element={
                   <ProtectedRoute requiredRole="merchant">
-                    <MerchantDashboard />
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Navigate to="purchases" replace />}
+                      />
+                      <Route path="purchases" element={<PurchasesPage />} />
+                      <Route
+                        path="customer-lookup"
+                        element={<CustomerLookupPage />}
+                      />
+                      <Route
+                        path="contribution-rate"
+                        element={<ContributionRatePage />}
+                      />
+                      <Route
+                        path="notifications"
+                        element={<NotificationsPage />}
+                      />
+                    </Routes>
                   </ProtectedRoute>
                 }
               />
@@ -59,7 +83,7 @@ const App = () => {
                 path="/dashboard/member"
                 element={
                   <ProtectedRoute requiredRole="member">
-                    <MemberDashboard />
+                    <MemberPage />
                   </ProtectedRoute>
                 }
               />

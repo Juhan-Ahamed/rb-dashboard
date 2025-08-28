@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Typography,
-  Box,
   Paper,
   Grid,
   Card,
   CardContent,
-  Button,
   List,
   ListItem,
   ListItemText,
@@ -18,7 +16,6 @@ import {
   PointOfSale as PointOfSaleIcon,
   History as HistoryIcon,
 } from "@mui/icons-material";
-import { logout } from "../../store/slices/authSlice";
 import { fetchPoints, fetchTransactions } from "../../store/slices/memberSlice";
 import MemberLoading from "./loading/MemberLoading.jsx";
 
@@ -36,23 +33,12 @@ const MemberDashboard = () => {
     }
   }, [dispatch, role]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   if (isLoading) {
     return <MemberLoading />;
   }
 
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "space-between", my: 3 }}>
-        <Typography variant="h4">Member Dashboard</Typography>
-        <Button variant="outlined" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Box>
-
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3 }}>

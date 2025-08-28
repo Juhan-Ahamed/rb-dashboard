@@ -1,11 +1,13 @@
 # Role-Based Login and Dashboard System
 
 A React-based application with TypeScript that implements a role-based authentication system with three user roles:
-Admin, Merchant, and Member. The application features protected routing, form validation, and role-specific dashboards.
+AdminPage, MerchantPage, and MemberPage. The application features protected routing, form validation, and role-specific
+dashboards.
 
 ## Features
 
-- **Role-Based Authentication**: Three distinct login/registration flows for Admin, Merchant, and Member roles
+- **Role-Based Authentication**: Three distinct login/registration flows for AdminPage, MerchantPage, and MemberPage
+  roles
 - **Protected Routing**: Route protection based on user roles
 - **Form Validation**: Comprehensive form validation using React Hook Form and Zod
 - **State Management**: Redux with TypeScript for predictable state management
@@ -43,21 +45,21 @@ Admin, Merchant, and Member. The application features protected routing, form va
 
 # Demo User Credentials
 
-## Admin Account
+## AdminPage Account
 
 - **Email**: `admin@example.com`
 - **Password**: `password`
 - **Access**: Full administrative privileges with user management capabilities
 
-## Merchant Account
+## MerchantPage Account
 
 - **Store Name**: `Test Store`
 - **Password**: `password`
-- **Access**: Merchant dashboard with purchase approvals, customer lookup, and contribution rate settings
+- **Access**: MerchantPage dashboard with purchase approvals, customer lookup, and contribution rate settings
 
-## Member Account
+## MemberPage Account
 
 - **Email/Phone**: `test@example.com` or `1234567890`
 - **Password**: `password`
 - **OTP**: `123456` (when prompted)
-- **Access**: Member dashboard with points summary and transaction history
+- **Access**: MemberPage dashboard with points summary and transaction history

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Typography,
-  Box,
   Paper,
   Table,
   TableBody,
@@ -13,7 +12,6 @@ import {
   TableRow,
   Button,
 } from "@mui/material";
-import { logout } from "../../store/slices/authSlice";
 import { fetchUsers } from "../../store/slices/adminSlice";
 import AdminLoading from "./loading/AdminLoading.jsx";
 
@@ -28,23 +26,12 @@ const AdminDashboard = () => {
     }
   }, [dispatch, role]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   if (isLoading) {
     return <AdminLoading />;
   }
 
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "space-between", my: 3 }}>
-        <Typography variant="h4">Admin Dashboard</Typography>
-        <Button variant="outlined" onClick={handleLogout}>
-          Logout
-        </Button>
-      </Box>
-
       <Paper sx={{ p: 3, mb: 3 }}>
         <Typography variant="h5" gutterBottom>
           Manage Users

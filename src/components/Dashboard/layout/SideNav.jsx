@@ -1,7 +1,18 @@
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { Link, useLocation } from "react-router";
+
+import { useSelector } from "react-redux";
+import { getMenuItems } from "../../../data/menuData.jsx";
 
 const SideNav = () => {
+  const { role } = useSelector((state) => state.auth);
+  const location = useLocation();
+  const menuItems = getMenuItems(role);
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
+
   return (
     <>
       <Box
@@ -33,7 +44,9 @@ const SideNav = () => {
         }}
       >
         <Stack spacing={2} sx={{ p: 2.5 }}>
-          <Box sx={{ display: "inline-flex" }}>RB Dashboard</Box>
+          <Box sx={{ display: "inline-flex" }}>
+            RB Dashboard {role && `(${role.toUpperCase()})`}
+          </Box>
         </Stack>
         <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
         <Box component="nav" sx={{ flex: "1 1 auto", p: "12px" }}>
@@ -42,47 +55,68 @@ const SideNav = () => {
             spacing={1}
             sx={{ listStyle: "none", m: 0, p: 0 }}
           >
-            <li>
-              <Box
-                sx={{
-                  alignItems: "center",
-                  borderRadius: 1,
-                  color: "var(--NavItem-color)",
-                  cursor: "pointer",
-                  display: "flex",
-                  flex: "0 0 auto",
-                  gap: 1,
-                  p: "6px 16px",
-                  position: "relative",
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                <Box
-                  sx={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    flex: "0 0 auto",
-                  }}
-                >
-                  <HomeOutlinedIcon />
-                </Box>
-                <Box sx={{ flex: "1 1 auto" }}>
-                  <Typography
-                    component="span"
+            {menuItems.map((item, index) => {
+              const active = isActive(item.path);
+
+              return (
+                <li key={index}>
+                  <Box
+                    component={Link}
+                    to={item.path}
                     sx={{
-                      color: "inherit",
-                      fontSize: "0.875rem",
-                      fontWeight: 500,
-                      lineHeight: "28px",
+                      alignItems: "center",
+                      borderRadius: 1,
+                      color: active
+                        ? "var(--NavItem-active-color)"
+                        : "var(--NavItem-color)",
+                      cursor: "pointer",
+                      display: "flex",
+                      flex: "0 0 auto",
+                      gap: 1,
+                      p: "6px 16px",
+                      position: "relative",
+                      textDecoration: "none",
+                      whiteSpace: "nowrap",
+                      backgroundColor: active
+                        ? "var(--NavItem-active-background)"
+                        : "transparent",
+                      "&:hover": {
+                        backgroundColor: active
+                          ? "var(--NavItem-active-background)"
+                          : "var(--NavItem-hover-background)",
+                      },
                     }}
                   >
-                    Home
-                  </Typography>
-                </Box>
-              </Box>
-            </li>
+                    <Box
+                      sx={{
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        flex: "0 0 auto",
+                        color: active
+                          ? "var(--NavItem-icon-active-color)"
+                          : "var(--NavItem-icon-color)",
+                      }}
+                    >
+                      {item.icon}
+                    </Box>
+                    <Box sx={{ flex: "1 1 auto" }}>
+                      <Typography
+                        component="span"
+                        sx={{
+                          color: "inherit",
+                          fontSize: "0.875rem",
+                          fontWeight: 500,
+                          lineHeight: "28px",
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </li>
+              );
+            })}
           </Stack>
         </Box>
         <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
